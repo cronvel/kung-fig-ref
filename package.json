@@ -1,0 +1,53 @@
+{
+  "name": "kung-fig-ref",
+  "version": "0.41.7",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "description": "Ref objects for kung-fig.",
+  "main": "lib/Ref.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "kung-fig-common-parsers": "^0.41.8",
+    "kung-fig-dynamic": "^0.41.8"
+  },
+  "devDependencies": {
+    "doormen": "^0.6.9",
+    "expect.js": "^0.3.1",
+    "string-kit": "^0.6.7"
+  },
+  "scripts": {
+    "test": "tea-time -R dot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cronvel/kung-fig-ref.git"
+  },
+  "keywords": [
+    "kung-fig",
+    "ref",
+    "object"
+  ],
+  "author": "Cédric Ronvel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cronvel/kung-fig-ref/issues"
+  },
+  "config": {
+    "tea-time": {
+      "coverDir": [
+        "lib"
+      ]
+    }
+  },
+  "copyright": {
+    "title": "Kung Fig Ref",
+    "years": [
+      2015,
+      2018
+    ],
+    "owner": "Cédric Ronvel"
+  }
+}
