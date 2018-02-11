@@ -565,3 +565,36 @@ describe( "Ref" , function() {
 } ) ;
 
 
+
+// Useful for Babel Tower's parser
+describe( "No initial dollar mode" , function() {
+	
+	it( "parse and get a simple ref" , function() {
+		var ref_ ;
+		
+		var ctx = {
+			a: 1 ,
+			b: 2 ,
+			sub: {
+				c: 3 ,
+				sub: {
+					d: 4
+				}
+			} ,
+			array: [ 'one' , 'two' , [ 'three' , 'four' , [ 'five' , 'six' ] ] ]
+		} ;
+		
+		ref_ = Ref.parse( 'a' , { noInitialDollar: true } ) ;
+		doormen.equals( ref_.get( ctx ) , 1 ) ;
+		
+		ref_ = Ref.parse( 'sub.c' , { noInitialDollar: true } ) ;
+		doormen.equals( ref_.get( ctx ) , 3 ) ;
+		
+		ref_ = Ref.parse( 'sub.sub.d' , { noInitialDollar: true } ) ;
+		doormen.equals( ref_.get( ctx ) , 4 ) ;
+		
+		ref_ = Ref.parse( 'array[$b]' , { noInitialDollar: true } ) ;
+		doormen.equals( ref_.get( ctx ) , ctx.array[2] ) ;
+	} ) ;
+} ) ;
+
