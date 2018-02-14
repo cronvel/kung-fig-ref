@@ -1,6 +1,6 @@
 {
   "name": "kung-fig-ref",
-  "version": "0.41.9",
+  "version": "0.41.10",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -10,13 +10,13 @@
     "test": "test"
   },
   "dependencies": {
-    "kung-fig-common-parsers": "^0.41.8",
-    "kung-fig-dynamic": "^0.41.8"
+    "kung-fig-common-parsers": "^0.41.9",
+    "kung-fig-dynamic": "^0.41.9"
   },
   "devDependencies": {
     "doormen": "^0.6.9",
     "expect.js": "^0.3.1",
-    "string-kit": "^0.6.7"
+    "string-kit": "^0.6.8"
   },
   "scripts": {
     "test": "tea-time -R dot"
