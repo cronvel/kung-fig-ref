@@ -1,6 +1,6 @@
 {
   "name": "kung-fig-ref",
-  "version": "0.41.10",
+  "version": "0.41.11",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "kung-fig-common-parsers": "^0.41.9",
-    "kung-fig-dynamic": "^0.41.9"
+    "kung-fig-dynamic": "^0.41.10"
   },
   "devDependencies": {
     "doormen": "^0.6.9",
