@@ -519,6 +519,13 @@ describe( "Ref" , function() {
 			doormen.equals( ctx.c.toString( ctx ) , "42" ) ;
 			doormen.equals( ctx.d.toString( ctx ) , "42" ) ;
 		} ) ;
+		
+		it( "Ref#getPath()" , function() {
+			doormen.equals( Ref.create( '$prop' ).getPath() , "prop" ) ;
+			doormen.equals( Ref.create( '$a.b.c.def' ).getPath() , "a.b.c.def" ) ;
+			doormen.equals( Ref.create( '$' ).getPath() , "" ) ;
+			doormen.equals( Ref.create( '$.prop' ).getPath() , ".prop" ) ;
+		} ) ;
 	} ) ;
 	
 	describe( "Parser edge cases" , function() {
