@@ -569,6 +569,23 @@ describe( "Ref" , function() {
 			doormen.equals( ref_.get( ctx ) , 'bob' ) ;
 		} ) ;
 	} ) ;
+	
+	describe( "Stringify" , function() {
+		
+		it( "basic stringify" , function() {
+			doormen.equals( Ref.parse( '$key' ).stringify() , '$key' ) ;
+			doormen.equals( Ref.parse( '$path.to.var' ).stringify() , '$path.to.var' ) ;
+			doormen.equals( Ref.parse( '$[1][2][3]' ).stringify() , '$[1][2][3]' ) ;
+			doormen.equals( Ref.parse( '$[1].prop[2][3]' ).stringify() , '$[1].prop[2][3]' ) ;
+			doormen.equals( Ref.parse( '$prop[1].prop' ).stringify() , '$prop[1].prop' ) ;
+			doormen.equals( Ref.parse( '$.prop[1].prop' ).stringify() , '$.prop[1].prop' ) ;
+			doormen.equals( Ref.parse( '$["key with space"]' ).stringify() , '$["key with space"]' ) ;
+			doormen.equals( Ref.parse( '$["key with space"].prop' ).stringify() , '$["key with space"].prop' ) ;
+			doormen.equals( Ref.parse( '$["key with space"]["and again"]' ).stringify() , '$["key with space"]["and again"]' ) ;
+			doormen.equals( Ref.parse( '$["key with space"]["dollar$"]' ).stringify() , '$["key with space"]["dollar$"]' ) ;
+			doormen.equals( Ref.parse( '$["key with space"]["dot.dot.dot"]' ).stringify() , '$["key with space"]["dot.dot.dot"]' ) ;
+		} ) ;
+	} ) ;
 } ) ;
 
 
