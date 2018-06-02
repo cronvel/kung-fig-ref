@@ -24,7 +24,6 @@
 	SOFTWARE.
 */
 
-/* jshint unused:false */
 /* global describe, it, before, after */
 
 "use strict" ;
@@ -34,16 +33,14 @@
 //var kungFig = require( '../lib/kungFig.js' ) ;
 var Ref = require( '..' ) ;
 
-var string = require( 'string-kit' ) ;
-var doormen = require( 'doormen' ) ;
-var expect = require( 'expect.js' ) ;
 
 
-
+/*
 function deb( v )
 {
 	console.log( string.inspect( { style: 'color' , depth: 15 } , v ) ) ;
 }
+*/
 
 
 
@@ -66,34 +63,34 @@ describe( "Ref" , function() {
 			} ;
 			
 			ref_ = Ref.parse( '$x' ) ;
-			doormen.equals( ref_.get( ctx ) , undefined ) ;
+			expect( ref_.get( ctx ) ).to.be( undefined ) ;
 			
 			ref_ = Ref.parse( '$x.y.z' ) ;
-			doormen.equals( ref_.get( ctx ) , undefined ) ;
+			expect( ref_.get( ctx ) ).to.be( undefined ) ;
 			
 			ref_ = Ref.parse( '$a' ) ;
-			doormen.equals( ref_.get( ctx ) , 1 ) ;
+			expect( ref_.get( ctx ) ).to.be( 1 ) ;
 			
 			ref_ = Ref.parse( '$b' ) ;
-			doormen.equals( ref_.get( ctx ) , 2 ) ;
+			expect( ref_.get( ctx ) ).to.be( 2 ) ;
 			
 			ref_ = Ref.parse( '$sub' ) ;
-			doormen.equals( ref_.get( ctx ) , ctx.sub ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx.sub ) ;
 			
 			ref_ = Ref.parse( '$sub.c' ) ;
-			doormen.equals( ref_.get( ctx ) , 3 ) ;
+			expect( ref_.get( ctx ) ).to.be( 3 ) ;
 			
 			ref_ = Ref.parse( '$sub.sub' ) ;
-			doormen.equals( ref_.get( ctx ) , ctx.sub.sub ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx.sub.sub ) ;
 			
 			ref_ = Ref.parse( '$sub.sub.d' ) ;
-			doormen.equals( ref_.get( ctx ) , 4 ) ;
+			expect( ref_.get( ctx ) ).to.be( 4 ) ;
 			
 			ref_ = Ref.parse( '$e' ) ;
-			doormen.equals( ref_.get( ctx ) , undefined ) ;
+			expect( ref_.get( ctx ) ).to.be( undefined ) ;
 			
 			ref_ = Ref.parse( '$e.f.g' ) ;
-			doormen.equals( ref_.get( ctx ) , undefined ) ;
+			expect( ref_.get( ctx ) ).to.be( undefined ) ;
 		} ) ;
 		
 		it( "parse and get a ref on a context having arrays" , function() {
@@ -105,37 +102,37 @@ describe( "Ref" , function() {
 			} ;
 			
 			ref_ = Ref.parse( '$array' ) ;
-			doormen.equals( ref_.get( ctx ) , ctx.array ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx.array ) ;
 			
 			ref_ = Ref.parse( '$array[0]' ) ;
-			doormen.equals( ref_.get( ctx ) , 'one' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'one' ) ;
 			
 			ref_ = Ref.parse( '$array[10]' ) ;
-			doormen.equals( ref_.get( ctx ) , undefined ) ;
+			expect( ref_.get( ctx ) ).to.be( undefined ) ;
 			
 			ref_ = Ref.parse( '$array[10][10]' ) ;
-			doormen.equals( ref_.get( ctx ) , undefined ) ;
+			expect( ref_.get( ctx ) ).to.be( undefined ) ;
 			
 			ref_ = Ref.parse( '$array[2][1]' ) ;
-			doormen.equals( ref_.get( ctx ) , 'four' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'four' ) ;
 			
 			ref_ = Ref.parse( '$array[3]' ) ;
-			doormen.equals( ref_.get( ctx ) , ctx.array[3] ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx.array[3] ) ;
 			
 			ref_ = Ref.parse( '$array[3].array' ) ;
-			doormen.equals( ref_.get( ctx ) , ctx.array[3].array ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx.array[3].array ) ;
 			
 			ref_ = Ref.parse( '$array[3].array[1]' ) ;
-			doormen.equals( ref_.get( ctx ) , 'eight' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'eight' ) ;
 			
 			ref_ = Ref.parse( '$[1]' ) ;
-			doormen.equals( ref_.get( ctx.array ) , 'two' ) ;
+			expect( ref_.get( ctx.array ) ).to.be( 'two' ) ;
 			
 			ref_ = Ref.parse( '$[2][1]' ) ;
-			doormen.equals( ref_.get( ctx.array ) , 'four' ) ;
+			expect( ref_.get( ctx.array ) ).to.be( 'four' ) ;
 			
 			ref_ = Ref.parse( '$[3].array[1]' ) ;
-			doormen.equals( ref_.get( ctx.array ) , 'eight' ) ;
+			expect( ref_.get( ctx.array ) ).to.be( 'eight' ) ;
 		} ) ;
 		
 		it( "parse and get a ref with quoted keys" , function() {
@@ -149,16 +146,16 @@ describe( "Ref" , function() {
 			} ;
 			
 			ref_ = Ref.parse( '$key' ) ;
-			doormen.equals( ref_.get( ctx ) , 'value' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'value' ) ;
 			
 			ref_ = Ref.parse( '$["key"]' ) ;
-			doormen.equals( ref_.get( ctx ) , 'value' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'value' ) ;
 			
 			ref_ = Ref.parse( '$["a key with spaces"]' ) ;
-			doormen.equals( ref_.get( ctx ) , ctx["a key with spaces"] ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx["a key with spaces"] ) ;
 			
 			ref_ = Ref.parse( '$["a key with spaces"]["another one"]' ) ;
-			doormen.equals( ref_.get( ctx ) , 'sure' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'sure' ) ;
 		} ) ;
 		
 		it( "parse and get a complex ref (ref having refs)" , function() {
@@ -178,19 +175,19 @@ describe( "Ref" , function() {
 			} ;
 			
 			ref_ = Ref.parse( '$array[$a]' ) ;
-			doormen.equals( ref_.get( ctx ) , 'two' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'two' ) ;
 			
 			ref_ = Ref.parse( '$array[$b]' ) ;
-			doormen.equals( ref_.get( ctx ) , ctx.array[3] ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx.array[3] ) ;
 			
 			ref_ = Ref.parse( '$array[$c]' ) ;
-			doormen.equals( ref_.get( ctx ) , 'one' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'one' ) ;
 			
 			ref_ = Ref.parse( '$object[$k1]' ) ;
-			doormen.equals( ref_.get( ctx ) , 'value' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'value' ) ;
 			
 			ref_ = Ref.parse( '$object[$k2]' ) ;
-			doormen.equals( ref_.get( ctx ) , 'another value' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'another value' ) ;
 		} ) ;
 		
 		it( "function in context" , function() {
@@ -203,13 +200,13 @@ describe( "Ref" , function() {
 			ctx.fn.prop = 'val' ;
 			
 			ref_ = Ref.parse( '$fn' ) ;
-			doormen.equals( ref_.get( ctx ) , ctx.fn ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx.fn ) ;
 			
 			ref_ = Ref.parse( '$fn.name' ) ;
-			doormen.equals( ref_.get( ctx ) , 'myFunc' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'myFunc' ) ;
 			
 			ref_ = Ref.parse( '$fn.prop' ) ;
-			doormen.equals( ref_.get( ctx ) , 'val' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'val' ) ;
 		} ) ;
 	} ) ;
 	
@@ -232,17 +229,17 @@ describe( "Ref" , function() {
 			
 			ref_ = Ref.parse( '$a' ) ;
 			ref_.set( ctx , 7 ) ;
-			doormen.equals( ctx.a , 7 ) ;
+			expect( ctx.a ).to.be( 7 ) ;
 			
 			ref_ = Ref.parse( '$sub.c' ) ;
 			ref_.set( ctx , 22 ) ;
-			doormen.equals( ctx.sub.c , 22 ) ;
+			expect( ctx.sub.c ).to.be( 22 ) ;
 			
 			ref_ = Ref.parse( '$sub.sub' ) ;
 			ref_.set( ctx , 'hello' ) ;
-			doormen.equals( ctx.sub.sub , 'hello' ) ;
+			expect( ctx.sub.sub ).to.be( 'hello' ) ;
 			
-			doormen.equals( ctx , {
+			expect( ctx ).to.equal( {
 				a: 7 ,
 				b: 2 ,
 				sub: {
@@ -262,11 +259,11 @@ describe( "Ref" , function() {
 			
 			ref_ = Ref.parse( '$array[0]' ) ;
 			ref_.set( ctx , 'ONE' ) ;
-			doormen.equals( ctx.array[0] , 'ONE' ) ;
+			expect( ctx.array[0] ).to.be( 'ONE' ) ;
 			
 			ref_ = Ref.parse( '$array[3][1]' ) ;
 			ref_.set( ctx , 4 ) ;
-			doormen.equals( ctx.array[3][1] , 4 ) ;
+			expect( ctx.array[3][1] ).to.be( 4 ) ;
 		} ) ;
 		
 		it( "set a complex ref (ref having refs)" , function() {
@@ -287,15 +284,15 @@ describe( "Ref" , function() {
 			
 			ref_ = Ref.parse( '$array[$a]' ) ;
 			ref_.set( ctx , 2 ) ;
-			doormen.equals( ctx.array[1] , 2 ) ;
+			expect( ctx.array[1] ).to.be( 2 ) ;
 			
 			ref_ = Ref.parse( '$object[$k1]' ) ;
 			ref_.set( ctx , 'my value' ) ;
-			doormen.equals( ctx.object.someKey , 'my value' ) ;
+			expect( ctx.object.someKey ).to.be( 'my value' ) ;
 			
 			ref_ = Ref.parse( '$object[$k2]' ) ;
 			ref_.set( ctx , 'my other value' ) ;
-			doormen.equals( ctx.object.anotherKey , 'my other value' ) ;
+			expect( ctx.object.anotherKey ).to.be( 'my other value' ) ;
 		} ) ;
 		
 		it( "set and the auto-creation feature" , function() {
@@ -306,14 +303,14 @@ describe( "Ref" , function() {
 			ref_ = Ref.parse( '$a.b' ) ;
 			ref_.set( ctx , 7 ) ;
 			
-			doormen.equals( ctx , {
+			expect( ctx ).to.equal( {
 				a: { b: 7 }
 			} ) ;
 			
 			ref_ = Ref.parse( '$c.d.e.f' ) ;
 			ref_.set( ctx , 'Gee!' ) ;
 			
-			doormen.equals( ctx , {
+			expect( ctx ).to.equal( {
 				a: { b: 7 } ,
 				c: { d: { e: { f: 'Gee!' } } }
 			} ) ;
@@ -321,7 +318,7 @@ describe( "Ref" , function() {
 			ref_ = Ref.parse( '$arr[1]' ) ;
 			ref_.set( ctx , 'one' ) ;
 			
-			doormen.equals( ctx , {
+			expect( ctx ).to.equal( {
 				a: { b: 7 } ,
 				c: { d: { e: { f: 'Gee!' } } } ,
 				arr: [ undefined , 'one' ]
@@ -330,7 +327,7 @@ describe( "Ref" , function() {
 			ref_ = Ref.parse( '$arr2[3][2][1]' ) ;
 			ref_.set( ctx , 'nested' ) ;
 			
-			doormen.equals( ctx , {
+			expect( ctx ).to.equal( {
 				a: { b: 7 } ,
 				c: { d: { e: { f: 'Gee!' } } } ,
 				arr: [ undefined , 'one' ] ,
@@ -349,11 +346,11 @@ describe( "Ref" , function() {
 			
 			ref_ = Ref.parse( '$fn.prop' ) ;
 			ref_.set( ctx , true ) ;
-			doormen.equals( ctx.fn.prop , true ) ;
+			expect( ctx.fn.prop , true ) ;
 			
 			ref_ = Ref.parse( '$fn.prop2' ) ;
 			ref_.set( ctx , 'plop' ) ;
-			doormen.equals( ctx.fn.prop2 , 'plop' ) ;
+			expect( ctx.fn.prop2 ).to.be( 'plop' ) ;
 		} ) ;
 	} ) ;
 	
@@ -375,25 +372,25 @@ describe( "Ref" , function() {
 			
 			ref_ = Ref.parse( '$a' ) ;
 			ref_.define( ctx , 7 ) ;
-			doormen.equals( ctx.a , 1 ) ;
+			expect( ctx.a ).to.be( 1 ) ;
 			
 			ref_ = Ref.parse( '$e' ) ;
 			ref_.define( ctx , 7 ) ;
-			doormen.equals( ctx.e , 7 ) ;
+			expect( ctx.e ).to.be( 7 ) ;
 			
 			ref_ = Ref.parse( '$sub.c' ) ;
 			ref_.define( ctx , 22 ) ;
-			doormen.equals( ctx.sub.c , 3 ) ;
+			expect( ctx.sub.c ).to.be( 3 ) ;
 			
 			ref_ = Ref.parse( '$sub.f' ) ;
 			ref_.define( ctx , 22 ) ;
-			doormen.equals( ctx.sub.f , 22 ) ;
+			expect( ctx.sub.f ).to.be( 22 ) ;
 			
 			ref_ = Ref.parse( '$sub.sub' ) ;
 			ref_.define( ctx , 'hello' ) ;
-			doormen.equals( ctx.sub.sub , { d: 4 } ) ;
+			expect( ctx.sub.sub ).to.equal( { d: 4 } ) ;
 			
-			doormen.equals( ctx , {
+			expect( ctx ).to.equal( {
 				a: 1 ,
 				b: 2 ,
 				e: 7 ,
@@ -426,17 +423,17 @@ describe( "Ref" , function() {
 			
 			ref_ = Ref.parse( '$a' ) ;
 			ref_.unset( ctx ) ;
-			doormen.equals( ctx.a , undefined ) ;
+			expect( ctx.a ).to.be( undefined ) ;
 			
 			ref_ = Ref.parse( '$e' ) ;
 			ref_.unset( ctx ) ;
-			doormen.equals( ctx.e , undefined ) ;
+			expect( ctx.e ).to.be( undefined ) ;
 			
 			ref_ = Ref.parse( '$sub.sub' ) ;
 			ref_.unset( ctx ) ;
-			doormen.equals( ctx.sub.sub , undefined ) ;
+			expect( ctx.sub.sub ).to.be( undefined ) ;
 			
-			doormen.equals( ctx , {
+			expect( ctx ).to.equal( {
 				b: 2 ,
 				sub: {
 					c: 3
@@ -445,9 +442,9 @@ describe( "Ref" , function() {
 			
 			ref_ = Ref.parse( '$sub' ) ;
 			ref_.unset( ctx ) ;
-			doormen.equals( ctx.sub , undefined ) ;
+			expect( ctx.sub ).to.be( undefined ) ;
 			
-			doormen.equals( ctx , {
+			expect( ctx ).to.equal( {
 				b: 2
 			} ) ;
 		} ) ;
@@ -479,13 +476,13 @@ describe( "Ref" , function() {
 			} ;
 			
 			ref_ = Ref.parse( '$fn' ) ;
-			doormen.equals( ref_.callFn( ctx , 4 , 5 , 6 ) , 21 ) ;
+			expect( ref_.callFn( ctx , 4 , 5 , 6 ) ).to.be( 21 ) ;
 			
 			ref_ = Ref.parse( '$sub.fn' ) ;
-			doormen.equals( ref_.callFn( ctx , 10 ) , 17 ) ;
+			expect( ref_.callFn( ctx , 10 ) ).to.be( 17 ) ;
 			
 			ref_ = Ref.parse( '$sub.sub.fn' ) ;
-			doormen.equals( ref_.callFn( ctx , -5 ) , -1 ) ;
+			expect( ref_.callFn( ctx , -5 ) ).to.be( -1 ) ;
 		} ) ;
 	} ) ;
 	
@@ -496,9 +493,9 @@ describe( "Ref" , function() {
 			ctx.b = Ref.create( '$a' ) ;
 			ctx.c = Ref.create( '$b' ) ;
 			ctx.d = Ref.create( '$c' ) ;
-			doormen.equals( ctx.b.getFinalValue( ctx ) , 42 ) ;
-			doormen.equals( ctx.c.getFinalValue( ctx ) , 42 ) ;
-			doormen.equals( ctx.d.getFinalValue( ctx ) , 42 ) ;
+			expect( ctx.b.getFinalValue( ctx ) ).to.be( 42 ) ;
+			expect( ctx.c.getFinalValue( ctx ) ).to.be( 42 ) ;
+			expect( ctx.d.getFinalValue( ctx ) ).to.be( 42 ) ;
 		} ) ;
 		
 		it( "Ref#getRecursiveFinalValue()" , function() {
@@ -507,7 +504,7 @@ describe( "Ref" , function() {
 			ctx.container.c = Ref.create( '$container.b' ) ;
 			ctx.container.d = Ref.create( '$container.c' ) ;
 			ctx.refContainer = Ref.create( '$container' ) ;
-			doormen.equals( ctx.refContainer.getRecursiveFinalValue( ctx ) , { b:42 , c:42 , d:42 } ) ;
+			expect( ctx.refContainer.getRecursiveFinalValue( ctx ) ).to.equal( { b:42 , c:42 , d:42 } ) ;
 		} ) ;
 		
 		it( "Ref#toString()" , function() {
@@ -515,16 +512,16 @@ describe( "Ref" , function() {
 			ctx.b = Ref.create( '$a' ) ;
 			ctx.c = Ref.create( '$b' ) ;
 			ctx.d = Ref.create( '$c' ) ;
-			doormen.equals( ctx.b.toString( ctx ) , "42" ) ;
-			doormen.equals( ctx.c.toString( ctx ) , "42" ) ;
-			doormen.equals( ctx.d.toString( ctx ) , "42" ) ;
+			expect( ctx.b.toString( ctx ) ).to.be( "42" ) ;
+			expect( ctx.c.toString( ctx ) ).to.be( "42" ) ;
+			expect( ctx.d.toString( ctx ) ).to.be( "42" ) ;
 		} ) ;
 		
 		it( "Ref#getPath()" , function() {
-			doormen.equals( Ref.create( '$prop' ).getPath() , "prop" ) ;
-			doormen.equals( Ref.create( '$a.b.c.def' ).getPath() , "a.b.c.def" ) ;
-			doormen.equals( Ref.create( '$' ).getPath() , "" ) ;
-			doormen.equals( Ref.create( '$.prop' ).getPath() , ".prop" ) ;
+			expect( Ref.create( '$prop' ).getPath() ).to.be( "prop" ) ;
+			expect( Ref.create( '$a.b.c.def' ).getPath() ).to.be( "a.b.c.def" ) ;
+			expect( Ref.create( '$' ).getPath() ).to.be( '' ) ;
+			expect( Ref.create( '$.prop' ).getPath() ).to.be( ".prop" ) ;
 		} ) ;
 	} ) ;
 	
@@ -532,7 +529,7 @@ describe( "Ref" , function() {
 	
 		it( "should stop parsing at first non-enclosed space" , function() {
 			var ref_ = Ref.parse( '$x y z' ) ;
-			doormen.equals( ref_.refParts , [ 'x' ] ) ;
+			expect( ref_.refParts ).to.equal( [ 'x' ] ) ;
 		} ) ;
 		
 		it( "should support empty properties" , function() {
@@ -549,41 +546,41 @@ describe( "Ref" , function() {
 			} ;
 			
 			ref_ = Ref.parse( '$.a' ) ;
-			doormen.equals( ref_.refParts , [ '' , 'a' ] ) ;
-			doormen.equals( ref_.get( ctx ) , 1 ) ;
+			expect( ref_.refParts ).to.equal( [ '' , 'a' ] ) ;
+			expect( ref_.get( ctx ) ).to.be( 1 ) ;
 			
 			ref_ = Ref.parse( '$..b' ) ;
-			doormen.equals( ref_.refParts , [ '' , '' , 'b' ] ) ;
-			doormen.equals( ref_.get( ctx ) , 2 ) ;
+			expect( ref_.refParts ).to.equal( [ '' , '' , 'b' ] ) ;
+			expect( ref_.get( ctx ) ).to.be( 2 ) ;
 			
 			ref_ = Ref.parse( '$.' ) ;
-			doormen.equals( ref_.refParts , [ '' ] ) ;
-			doormen.equals( ref_.get( ctx ) , ctx[''] ) ;
+			expect( ref_.refParts ).to.equal( [ '' ] ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''] ) ;
 			
 			ref_ = Ref.parse( '$..' ) ;
-			doormen.equals( ref_.refParts , [ '' , '' ] ) ;
-			doormen.equals( ref_.get( ctx ) , ctx[''][''] ) ;
+			expect( ref_.refParts ).to.equal( [ '' , '' ] ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''][''] ) ;
 			
 			ref_ = Ref.parse( '$..b' ) ;
 			ref_.set( ctx , 'bob' ) ;
-			doormen.equals( ref_.get( ctx ) , 'bob' ) ;
+			expect( ref_.get( ctx ) ).to.be( 'bob' ) ;
 		} ) ;
 	} ) ;
 	
 	describe( "Stringify" , function() {
 		
 		it( "basic stringify" , function() {
-			doormen.equals( Ref.parse( '$key' ).stringify() , '$key' ) ;
-			doormen.equals( Ref.parse( '$path.to.var' ).stringify() , '$path.to.var' ) ;
-			doormen.equals( Ref.parse( '$[1][2][3]' ).stringify() , '$[1][2][3]' ) ;
-			doormen.equals( Ref.parse( '$[1].prop[2][3]' ).stringify() , '$[1].prop[2][3]' ) ;
-			doormen.equals( Ref.parse( '$prop[1].prop' ).stringify() , '$prop[1].prop' ) ;
-			doormen.equals( Ref.parse( '$.prop[1].prop' ).stringify() , '$.prop[1].prop' ) ;
-			doormen.equals( Ref.parse( '$["key with space"]' ).stringify() , '$["key with space"]' ) ;
-			doormen.equals( Ref.parse( '$["key with space"].prop' ).stringify() , '$["key with space"].prop' ) ;
-			doormen.equals( Ref.parse( '$["key with space"]["and again"]' ).stringify() , '$["key with space"]["and again"]' ) ;
-			doormen.equals( Ref.parse( '$["key with space"]["dollar$"]' ).stringify() , '$["key with space"]["dollar$"]' ) ;
-			doormen.equals( Ref.parse( '$["key with space"]["dot.dot.dot"]' ).stringify() , '$["key with space"]["dot.dot.dot"]' ) ;
+			expect( Ref.parse( '$key' ).stringify() ).to.be( '$key' ) ;
+			expect( Ref.parse( '$path.to.var' ).stringify() ).to.be( '$path.to.var' ) ;
+			expect( Ref.parse( '$[1][2][3]' ).stringify() ).to.be( '$[1][2][3]' ) ;
+			expect( Ref.parse( '$[1].prop[2][3]' ).stringify() ).to.be( '$[1].prop[2][3]' ) ;
+			expect( Ref.parse( '$prop[1].prop' ).stringify() ).to.be( '$prop[1].prop' ) ;
+			expect( Ref.parse( '$.prop[1].prop' ).stringify() ).to.be( '$.prop[1].prop' ) ;
+			expect( Ref.parse( '$["key with space"]' ).stringify() ).to.be( '$["key with space"]' ) ;
+			expect( Ref.parse( '$["key with space"].prop' ).stringify() ).to.be( '$["key with space"].prop' ) ;
+			expect( Ref.parse( '$["key with space"]["and again"]' ).stringify() ).to.be( '$["key with space"]["and again"]' ) ;
+			expect( Ref.parse( '$["key with space"]["dollar$"]' ).stringify() ).to.be( '$["key with space"]["dollar$"]' ) ;
+			expect( Ref.parse( '$["key with space"]["dot.dot.dot"]' ).stringify() ).to.be( '$["key with space"]["dot.dot.dot"]' ) ;
 		} ) ;
 	} ) ;
 } ) ;
@@ -609,16 +606,16 @@ describe( "No initial dollar mode" , function() {
 		} ;
 		
 		ref_ = Ref.parse( 'a' , { noInitialDollar: true } ) ;
-		doormen.equals( ref_.get( ctx ) , 1 ) ;
+		expect( ref_.get( ctx ) ).to.be( 1 ) ;
 		
 		ref_ = Ref.parse( 'sub.c' , { noInitialDollar: true } ) ;
-		doormen.equals( ref_.get( ctx ) , 3 ) ;
+		expect( ref_.get( ctx ) ).to.be( 3 ) ;
 		
 		ref_ = Ref.parse( 'sub.sub.d' , { noInitialDollar: true } ) ;
-		doormen.equals( ref_.get( ctx ) , 4 ) ;
+		expect( ref_.get( ctx ) ).to.be( 4 ) ;
 		
 		ref_ = Ref.parse( 'array[$b]' , { noInitialDollar: true } ) ;
-		doormen.equals( ref_.get( ctx ) , ctx.array[2] ) ;
+		expect( ref_.get( ctx ) ).to.be( ctx.array[2] ) ;
 	} ) ;
 } ) ;
 
