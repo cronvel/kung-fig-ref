@@ -93,6 +93,33 @@ describe( "Ref" , () => {
 			expect( ref_.get( ctx ) ).to.be( undefined ) ;
 		} ) ;
 
+		it( "it should autobox Boolean, String and Number for the root ref" , () => {
+			var ref_ ;
+
+			var ctx = {
+				b: new Boolean( true ) ,
+				s: new String( 'bob' ) ,
+				n: new Number( 10 )
+			} ;
+
+			ref_ = Ref.parse( '$b' ) ;
+			expect( ref_.get( ctx ) ).to.be.a( Boolean ) ;
+			ref_ = Ref.parse( '$s' ) ;
+			expect( ref_.get( ctx ) ).to.be.a( String ) ;
+			ref_ = Ref.parse( '$n' ) ;
+			expect( ref_.get( ctx ) ).to.be.a( Number ) ;
+
+			ref_ = Ref.parse( '$' ) ;
+			expect( ref_.get( ctx.b ) ).not.to.be.a( Boolean ) ;
+			expect( ref_.get( ctx.b ) ).to.be( true ) ;
+			ref_ = Ref.parse( '$' ) ;
+			expect( ref_.get( ctx.s ) ).not.to.be.a( String ) ;
+			expect( ref_.get( ctx.s ) ).to.be( 'bob' ) ;
+			ref_ = Ref.parse( '$' ) ;
+			expect( ref_.get( ctx.n ) ).not.to.be.a( Number ) ;
+			expect( ref_.get( ctx.n ) ).to.be( 10 ) ;
+		} ) ;
+
 		it( "parse and get a ref on a context having arrays" , () => {
 			var ref_ ;
 
@@ -631,39 +658,37 @@ describe( "Ref" , () => {
 			expect( Ref.parse( '$path[$my.index].to.value' ).compile()( context ) ).to.be( "some value" ) ;
 		} ) ;
 	} ) ;
-} ) ;
 
+	// Useful for Babel Tower's parser
+	describe( "No initial dollar mode" , () => {
 
+		it( "parse and get a simple ref" , () => {
+			var ref_ ;
 
-// Useful for Babel Tower's parser
-describe( "No initial dollar mode" , () => {
-
-	it( "parse and get a simple ref" , () => {
-		var ref_ ;
-
-		var ctx = {
-			a: 1 ,
-			b: 2 ,
-			sub: {
-				c: 3 ,
+			var ctx = {
+				a: 1 ,
+				b: 2 ,
 				sub: {
-					d: 4
-				}
-			} ,
-			array: [ 'one' , 'two' , [ 'three' , 'four' , [ 'five' , 'six' ] ] ]
-		} ;
+					c: 3 ,
+					sub: {
+						d: 4
+					}
+				} ,
+				array: [ 'one' , 'two' , [ 'three' , 'four' , [ 'five' , 'six' ] ] ]
+			} ;
 
-		ref_ = Ref.parse( 'a' , { noInitialDollar: true } ) ;
-		expect( ref_.get( ctx ) ).to.be( 1 ) ;
+			ref_ = Ref.parse( 'a' , { noInitialDollar: true } ) ;
+			expect( ref_.get( ctx ) ).to.be( 1 ) ;
 
-		ref_ = Ref.parse( 'sub.c' , { noInitialDollar: true } ) ;
-		expect( ref_.get( ctx ) ).to.be( 3 ) ;
+			ref_ = Ref.parse( 'sub.c' , { noInitialDollar: true } ) ;
+			expect( ref_.get( ctx ) ).to.be( 3 ) ;
 
-		ref_ = Ref.parse( 'sub.sub.d' , { noInitialDollar: true } ) ;
-		expect( ref_.get( ctx ) ).to.be( 4 ) ;
+			ref_ = Ref.parse( 'sub.sub.d' , { noInitialDollar: true } ) ;
+			expect( ref_.get( ctx ) ).to.be( 4 ) ;
 
-		ref_ = Ref.parse( 'array[$b]' , { noInitialDollar: true } ) ;
-		expect( ref_.get( ctx ) ).to.be( ctx.array[2] ) ;
+			ref_ = Ref.parse( 'array[$b]' , { noInitialDollar: true } ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx.array[2] ) ;
+		} ) ;
 	} ) ;
 } ) ;
 
