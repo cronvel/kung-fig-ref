@@ -1,7 +1,7 @@
 /*
 	Kung Fig Ref
 
-	Copyright (c) 2015 - 2019 Cédric Ronvel
+	Copyright (c) 2015 - 2020 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -517,9 +517,9 @@ describe( "Ref" , () => {
 
 		it( "Ref#getFinalValue()" , () => {
 			var ctx = { a: 42 } ;
-			ctx.b = Ref.create( '$a' ) ;
-			ctx.c = Ref.create( '$b' ) ;
-			ctx.d = Ref.create( '$c' ) ;
+			ctx.b = new Ref( '$a' ) ;
+			ctx.c = new Ref( '$b' ) ;
+			ctx.d = new Ref( '$c' ) ;
 			expect( ctx.b.getFinalValue( ctx ) ).to.be( 42 ) ;
 			expect( ctx.c.getFinalValue( ctx ) ).to.be( 42 ) ;
 			expect( ctx.d.getFinalValue( ctx ) ).to.be( 42 ) ;
@@ -527,10 +527,10 @@ describe( "Ref" , () => {
 
 		it( "Ref#getRecursiveFinalValue()" , () => {
 			var ctx = { a: 42 , container: {} } ;
-			ctx.container.b = Ref.create( '$a' ) ;
-			ctx.container.c = Ref.create( '$container.b' ) ;
-			ctx.container.d = Ref.create( '$container.c' ) ;
-			ctx.refContainer = Ref.create( '$container' ) ;
+			ctx.container.b = new Ref( '$a' ) ;
+			ctx.container.c = new Ref( '$container.b' ) ;
+			ctx.container.d = new Ref( '$container.c' ) ;
+			ctx.refContainer = new Ref( '$container' ) ;
 			expect( ctx.refContainer.getRecursiveFinalValue( ctx ) ).to.equal( {
 				b: 42 , c: 42 , d: 42
 			} ) ;
@@ -538,19 +538,19 @@ describe( "Ref" , () => {
 
 		it( "Ref#toString()" , () => {
 			var ctx = { a: 42 } ;
-			ctx.b = Ref.create( '$a' ) ;
-			ctx.c = Ref.create( '$b' ) ;
-			ctx.d = Ref.create( '$c' ) ;
+			ctx.b = new Ref( '$a' ) ;
+			ctx.c = new Ref( '$b' ) ;
+			ctx.d = new Ref( '$c' ) ;
 			expect( ctx.b.toString( ctx ) ).to.be( "42" ) ;
 			expect( ctx.c.toString( ctx ) ).to.be( "42" ) ;
 			expect( ctx.d.toString( ctx ) ).to.be( "42" ) ;
 		} ) ;
 
 		it( "Ref#getPath()" , () => {
-			expect( Ref.create( '$prop' ).getPath() ).to.be( "prop" ) ;
-			expect( Ref.create( '$a.b.c.def' ).getPath() ).to.be( "a.b.c.def" ) ;
-			expect( Ref.create( '$' ).getPath() ).to.be( '' ) ;
-			expect( Ref.create( '$.prop' ).getPath() ).to.be( ".prop" ) ;
+			expect( new Ref( '$prop' ).getPath() ).to.be( "prop" ) ;
+			expect( new Ref( '$a.b.c.def' ).getPath() ).to.be( "a.b.c.def" ) ;
+			expect( new Ref( '$' ).getPath() ).to.be( '' ) ;
+			expect( new Ref( '$.prop' ).getPath() ).to.be( ".prop" ) ;
 		} ) ;
 	} ) ;
 
