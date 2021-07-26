@@ -1,6 +1,6 @@
 {
   "name": "kung-fig-ref",
-  "version": "0.42.9",
+  "version": "0.42.10",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -42,7 +42,7 @@
     "title": "Kung Fig Ref",
     "years": [
       2015,
-      2020
+      2021
     ],
     "owner": "Cédric Ronvel"
   }
