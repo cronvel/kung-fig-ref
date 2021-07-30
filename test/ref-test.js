@@ -30,8 +30,8 @@
 
 
 
-//var kungFig = require( '../lib/kungFig.js' ) ;
-var Ref = require( '..' ) ;
+//const kungFig = require( '../lib/kungFig.js' ) ;
+const Ref = require( '..' ) ;
 
 
 
@@ -514,6 +514,17 @@ describe( "Ref" , () => {
 	} ) ;
 
 	describe( "Misc" , () => {
+
+		it( "Ref#clone()" , () => {
+			var ctx = { a: { b: { c: 42 } } } ;
+			var ref1 = new Ref( '$a.b' ) ;
+			var ref2 = ref1.clone() ;
+			expect( ref1.getFinalValue( ctx ) ).to.be( ctx.a.b ) ;
+			expect( ref2.getFinalValue( ctx ) ).to.be( ctx.a.b ) ;
+			ref1.appendPart( 'c' ) ;
+			expect( ref1.getFinalValue( ctx ) ).to.be( 42 ) ;
+			expect( ref2.getFinalValue( ctx ) ).to.be( ctx.a.b ) ;
+		} ) ;
 
 		it( "Ref#getFinalValue()" , () => {
 			var ctx = { a: 42 } ;
