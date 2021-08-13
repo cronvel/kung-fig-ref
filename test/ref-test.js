@@ -36,8 +36,7 @@ const Ref = require( '..' ) ;
 
 
 /*
-function deb( v )
-{
+function deb( v ) {
 	console.log( string.inspect( { style: 'color' , depth: 15 } , v ) ) ;
 }
 */
@@ -542,9 +541,8 @@ describe( "Ref" , () => {
 			ctx.container.c = new Ref( '$container.b' ) ;
 			ctx.container.d = new Ref( '$container.c' ) ;
 			ctx.refContainer = new Ref( '$container' ) ;
-			expect( ctx.refContainer.getRecursiveFinalValue( ctx ) ).to.equal( {
-				b: 42 , c: 42 , d: 42
-			} ) ;
+			expect( ctx.refContainer.getDeepFinalValue( ctx ) ).to.equal( { b: 42 , c: 42 , d: 42 } ) ;
+			expect( ctx.refContainer.getDeepFinalClone( ctx ) ).to.equal( { b: 42 , c: 42 , d: 42 } ) ;
 		} ) ;
 
 		it( "Ref#toString()" , () => {

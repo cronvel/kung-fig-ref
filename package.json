@@ -1,6 +1,6 @@
 {
   "name": "kung-fig-ref",
-  "version": "0.43.0",
+  "version": "0.44.0",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "kung-fig-common": "^0.42.2",
-    "kung-fig-dynamic": "^0.41.13"
+    "kung-fig-dynamic": "^0.42.4"
   },
   "scripts": {
     "test": "tea-time -R dot"
