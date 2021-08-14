@@ -535,15 +535,18 @@ describe( "Ref" , () => {
 			expect( ctx.d.getFinalValue( ctx ) ).to.be( 42 ) ;
 		} ) ;
 
-		it( "Ref#getRecursiveFinalValue()" , () => {
+		/*
+		// Does not make sense, data should not contain dynamic, only resolved dynamic or applicable
+		it( "Ref#getDeepFinalValue()" , () => {
 			var ctx = { a: 42 , container: {} } ;
 			ctx.container.b = new Ref( '$a' ) ;
 			ctx.container.c = new Ref( '$container.b' ) ;
 			ctx.container.d = new Ref( '$container.c' ) ;
 			ctx.refContainer = new Ref( '$container' ) ;
+			expect( ctx.refContainer.extractFromStatic( ctx ) ).to.equal( { b: 42 , c: 42 , d: 42 } ) ;
 			expect( ctx.refContainer.getDeepFinalValue( ctx ) ).to.equal( { b: 42 , c: 42 , d: 42 } ) ;
-			expect( ctx.refContainer.getDeepFinalClone( ctx ) ).to.equal( { b: 42 , c: 42 , d: 42 } ) ;
 		} ) ;
+		*/
 
 		it( "Ref#toString()" , () => {
 			var ctx = { a: 42 } ;
