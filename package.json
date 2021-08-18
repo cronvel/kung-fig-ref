@@ -1,8 +1,8 @@
 {
   "name": "kung-fig-ref",
-  "version": "0.45.0",
+  "version": "0.46.0",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=14.15.0"
   },
   "description": "Ref objects for kung-fig.",
   "main": "lib/Ref.js",

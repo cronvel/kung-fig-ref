@@ -60,13 +60,6 @@ describe( "Ref" , () => {
 					}
 				}
 			} ;
-
-			ref_ = Ref.parse( '$x' ) ;
-			expect( ref_.get( ctx ) ).to.be( undefined ) ;
-
-			ref_ = Ref.parse( '$x.y.z' ) ;
-			expect( ref_.get( ctx ) ).to.be( undefined ) ;
-
 			ref_ = Ref.parse( '$a' ) ;
 			expect( ref_.get( ctx ) ).to.be( 1 ) ;
 
@@ -84,6 +77,16 @@ describe( "Ref" , () => {
 
 			ref_ = Ref.parse( '$sub.sub.d' ) ;
 			expect( ref_.get( ctx ) ).to.be( 4 ) ;
+
+			// Unexistant, or not in object
+			ref_ = Ref.parse( '$x' ) ;
+			expect( ref_.get( ctx ) ).to.be( undefined ) ;
+
+			ref_ = Ref.parse( '$x.y.z' ) ;
+			expect( ref_.get( ctx ) ).to.be( undefined ) ;
+
+			ref_ = Ref.parse( '$a.x' ) ;
+			expect( ref_.get( ctx ) ).to.be( undefined ) ;
 
 			ref_ = Ref.parse( '$e' ) ;
 			expect( ref_.get( ctx ) ).to.be( undefined ) ;
@@ -630,19 +633,23 @@ describe( "Ref" , () => {
 	describe( ".toJs()" , () => {
 
 		it( "basic .toJs()" , () => {
-			expect( Ref.parse( '$key' ).toJs() ).to.be( 'ctx.key' ) ;
-			expect( Ref.parse( '$path.to.var' ).toJs() ).to.be( 'ctx.path.to.var' ) ;
-			expect( Ref.parse( '$[1][2][3]' ).toJs() ).to.be( 'ctx[1][2][3]' ) ;
-			expect( Ref.parse( '$[1].prop[2][3]' ).toJs() ).to.be( 'ctx[1].prop[2][3]' ) ;
-			expect( Ref.parse( '$prop[1].prop' ).toJs() ).to.be( 'ctx.prop[1].prop' ) ;
-			//expect( Ref.parse( '$.prop[1].prop' ).toJs() ).to.be( '$.prop[1].prop' ) ;
-			expect( Ref.parse( '$["key with space"]' ).toJs() ).to.be( 'ctx["key with space"]' ) ;
-			expect( Ref.parse( '$["key with space"].prop' ).toJs() ).to.be( 'ctx["key with space"].prop' ) ;
-			expect( Ref.parse( '$["key with space"]["and again"]' ).toJs() ).to.be( 'ctx["key with space"]["and again"]' ) ;
-			expect( Ref.parse( '$["key with space"]["dollar$"]' ).toJs() ).to.be( 'ctx["key with space"]["dollar$"]' ) ;
-			expect( Ref.parse( '$["key with space"]["dot.dot.dot"]' ).toJs() ).to.be( 'ctx["key with space"]["dot.dot.dot"]' ) ;
+			expect( Ref.parse( '$key' ).toJs() ).to.be( 'ctx?.key' ) ;
+			expect( Ref.parse( '$path.to.var' ).toJs() ).to.be( 'ctx?.path?.to?.var' ) ;
+			expect( Ref.parse( '$[1][2][3]' ).toJs() ).to.be( 'ctx?.[1]?.[2]?.[3]' ) ;
+			expect( Ref.parse( '$[1].prop[2][3]' ).toJs() ).to.be( 'ctx?.[1]?.prop?.[2]?.[3]' ) ;
+			expect( Ref.parse( '$prop[1].prop' ).toJs() ).to.be( 'ctx?.prop?.[1]?.prop' ) ;
+			expect( Ref.parse( '$["key with space"]' ).toJs() ).to.be( 'ctx?.["key with space"]' ) ;
+			expect( Ref.parse( '$["key with space"].prop' ).toJs() ).to.be( 'ctx?.["key with space"]?.prop' ) ;
+			expect( Ref.parse( '$["key with space"]["and again"]' ).toJs() ).to.be( 'ctx?.["key with space"]?.["and again"]' ) ;
+			expect( Ref.parse( '$["key with space"]["dollar$"]' ).toJs() ).to.be( 'ctx?.["key with space"]?.dollar$' ) ;
+			expect( Ref.parse( '$["key with space"]["dot.dot.dot"]' ).toJs() ).to.be( 'ctx?.["key with space"]?.["dot.dot.dot"]' ) ;
 
-			expect( Ref.parse( '$path[$my.index].to.value' ).toJs() ).to.be( 'ctx.path[ctx.my.index].to.value' ) ;
+			expect( Ref.parse( '$some.var-with.hyphen' ).toJs() ).to.be( 'ctx?.some?.["var-with"]?.hyphen' ) ;
+			expect( Ref.parse( '$some.var-with-hyphen' ).toJs() ).to.be( 'ctx?.some?.["var-with-hyphen"]' ) ;
+			expect( Ref.parse( '$some-var-with-hyphen' ).toJs() ).to.be( 'ctx?.["some-var-with-hyphen"]' ) ;
+
+			expect( Ref.parse( '$path[$my.index].to.value' ).toJs() ).to.be( 'ctx?.path?.[ctx?.my?.index]?.to?.value' ) ;
+			expect( Ref.parse( '$path[$var.with-hyphen].to.value' ).toJs() ).to.be( 'ctx?.path?.[ctx?.var?.["with-hyphen"]]?.to?.value' ) ;
 		} ) ;
 	} ) ;
 
@@ -668,6 +675,19 @@ describe( "Ref" , () => {
 			expect( Ref.parse( '$["key with space"]' ).compile()( context ) ).to.be( "value with space" ) ;
 
 			expect( Ref.parse( '$path[$my.index].to.value' ).compile()( context ) ).to.be( "some value" ) ;
+		} ) ;
+
+		it( ".compile() should support unexisting path or path inside non-objects" , () => {
+			var context = {
+				key: "value" ,
+				"true": true ,
+				"null": null ,
+			} ;
+
+			expect( Ref.parse( '$path.to.unexisting' ).compile()( context ) ).to.be( undefined ) ;
+			expect( Ref.parse( '$key.path.to.unexisting' ).compile()( context ) ).to.be( undefined ) ;
+			expect( Ref.parse( '$true.path.to.unexisting' ).compile()( context ) ).to.be( undefined ) ;
+			expect( Ref.parse( '$null.path.to.unexisting' ).compile()( context ) ).to.be( undefined ) ;
 		} ) ;
 	} ) ;
 
