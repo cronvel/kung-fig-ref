@@ -95,6 +95,57 @@ describe( "Ref" , () => {
 			expect( ref_.get( ctx ) ).to.be( undefined ) ;
 		} ) ;
 
+		it( "ref with empty path parts" , () => {
+			var ref_ ;
+
+			var ctx = {
+				"": {
+					hidden: "value" ,
+					"": {
+						hidden2: "value2" ,
+					} ,
+					sub: {
+						"": {
+							hidden3: "value3" ,
+						} ,
+					}
+				}
+			} ;
+
+			ref_ = Ref.parse( '$' ) ;
+			expect( ref_.getPath() ).to.be( '' ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx ) ;
+
+			ref_ = Ref.parse( '$.' ) ;
+			expect( ref_.getPath() ).to.be( '.' ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''] ) ;
+
+			ref_ = Ref.parse( '$.hidden' ) ;
+			expect( ref_.getPath() ).to.be( '.hidden' ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''].hidden ) ;
+
+			ref_ = Ref.parse( '$..' ) ;
+			expect( ref_.getPath() ).to.be( '..' ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''][''] ) ;
+
+			ref_ = Ref.parse( '$..hidden2' ) ;
+			expect( ref_.getPath() ).to.be( '..hidden2' ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''][''].hidden2 ) ;
+
+			ref_ = Ref.parse( '$.sub' ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''].sub ) ;
+			ref_ = Ref.parse( '$.sub.' ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''].sub ) ;
+
+			ref_ = Ref.parse( '$.sub..' ) ;
+			expect( ref_.getPath() ).to.be( '.sub..' ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''].sub[''] ) ;
+
+			ref_ = Ref.parse( '$.sub..hidden3' ) ;
+			expect( ref_.getPath() ).to.be( '.sub..hidden3' ) ;
+			expect( ref_.get( ctx ) ).to.be( ctx[''].sub[''].hidden3 ) ;
+		} ) ;
+
 		it( "it should autobox Boolean, String and Number for the root ref" , () => {
 			var ref_ ;
 
